@@ -14,6 +14,7 @@ int main(){
     wait(&status);
     free(input);
   }
+  printf("-->");
   scanf("%[^\n]s", input);
   char ** args = parse_args( input );
   execvp(args[0], args);
