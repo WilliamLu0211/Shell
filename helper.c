@@ -14,7 +14,7 @@ int cd(char* arg, char* dir){
 }
 
 char** parse_args(char* line, char* delim){
-  char** args = calloc(16, sizeof(char*));
+  char** args = calloc(1,6 sizeof(char*));
   int i = 0;
   while (line){
     args[i] = strsep(&line, delim);
