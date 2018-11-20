@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/wait.h>
 
 #include "helper.h"
 
 int main(){
-  int f, status;
   char* input = malloc(64);
+  char* cwd = malloc(256);
+  int f, status;
+
   while (1){
     f = fork();
     if (!f)
@@ -14,9 +17,11 @@ int main(){
     wait(&status);
     free(input);
   }
-  printf("-->");
+
+  getcwd(cwd, 256);
+  printf("%s> ", cwd);
   scanf("%[^\n]s", input);
-  char ** args = parse_args( input );
-  execvp(args[0], args);
+  execute(input, cwd);
+  free(cwd);
   return 0;
 }
