@@ -3,6 +3,8 @@
 int execute(char* piece){
   int f, status;
   char** args = parse_args(piece, " ");
+  for (int i = 0; i < 3; i ++)
+    printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
     chdir(args[1]);
 
