@@ -4,14 +4,37 @@
 #include <sys/wait.h>
 #include <string.h>
 
-void rm_space(char** args){
-  int length = 6;//sizeof(args) / sizeof(args[0]);
-  for (int i = 0; i < length; i ++)
-    if ( args[i] == 0 ){
-      for (int j = i; i < length - 1; j ++)
-        args[j] = args[j + 1];
-      i --;
+int get_length(char** args){
+  int length = 0;
+  char* dummy = args[0];
+  //printf("|%d|\n", dummy);
+  while (dummy){
+    length ++;
+    dummy = args[length];
+  }
+  return length;
+}
+
+char** rm_space(char** args){
+  int length = get_length(args);
+  //printf("%d\n", length);
+  char** new_args = calloc(length, sizeof(char*));
+  int i, j = 0;
+  for (i = 0; i < length; i ++)
+    /* printf("#"); */
+    /* if ( !strcmp(args[i], "") ){ */
+    /*   printf("$"); */
+    /*   for (j = i; i < length - 1; j ++) */
+    /*     args[j] = args[j + 1]; */
+    /*   i --; */
+    /* } */
+    if ( strcmp(args[i], "") ){
+      //printf("$");
+      new_args[j] = args[i];
+      j ++;
     }
+
+  return new_args;
 }
 
 char** parse_args(char* line, char* delim){
@@ -21,9 +44,10 @@ char** parse_args(char* line, char* delim){
     args[i] = strsep(&line, delim);
     i ++;
   }
+  //printf("%p\n", line);
   args[i] = 0;
-  rm_space(args);
-  return args;
+  //rm_space(args);
+  return rm_space(args);
 }
 
 
@@ -31,8 +55,9 @@ char** parse_args(char* line, char* delim){
 int main(){
   char line[] = "ls   -a  -l";
   char ** args = parse_args( line, " " );
+  //rm_space(args);
   // execvp(args[0], args);
-  for (int i = 0; i < 10; i ++)
+  for (int i = 0; i < 6; i ++)
       printf("[%s]\n", args[i]);
   return 0;
 }
