@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-// int execute(char* input, char* dir);
+int execute(char* input, char* dir);
 
 int cd(char* arg, char* dir);
 
