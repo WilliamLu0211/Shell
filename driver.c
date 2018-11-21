@@ -7,37 +7,44 @@
 #include "helper.h"
 
 int main(){
-  char* input = malloc(64);
-  char* cwd = malloc(256);
+  char* input;
+  char* cwd;
   char** args;
   int f, status;
   // char broke;
 
   while (1){
 
+    input = malloc(256);
+    cwd = malloc(256);
+
     getcwd(cwd, 256);
     printf("%s> ", cwd);
-    scanf("%[^\n]s", input);
+    // fflush(stdin);
+    scanf(" %[^\n]s", input);
+    // printf("input: %p", input);
     args = parse_args( input, " " );
     // broke = 0;
 
+    // printf("%s", args[0]);
     if (!strcmp(args[0], "cd"))
       chdir(args[1]);
 
     else{
       f = fork();
-      if (!f){
+      if (!f)
         execvp(args[0], args);
-      }
-      else{
-        wait(&status);
-      }
+        // return 0;
+      // else{
+      wait(&status);
+      // }
     }
     // if (broke)
     //   break;
 
     // wait(&status);
 
+    // break;
     free(input);
     free(cwd);
     // free(args);

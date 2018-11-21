@@ -5,6 +5,4 @@
 
 // int execute(char* input, char* dir);
 
-int cd(char* arg, char* dir);
-
 char** parse_args(char* line, char* delim);
