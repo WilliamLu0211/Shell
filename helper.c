@@ -8,11 +8,6 @@ int execute(char* input, char* dir){
   return 0;
 }
 
-int cd(char* arg, char* dir){
-  char ** new = parse_args(arg, "/");
-  char ** old = parse_args(dir, "/");
-}
-
 char** parse_args(char* line, char* delim){
   char** args = calloc(1,6 * sizeof(char*));
   int i = 0;
