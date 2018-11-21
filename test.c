@@ -21,13 +21,6 @@ char** rm_space(char** args){
   char** new_args = calloc(length, sizeof(char*));
   int i, j = 0;
   for (i = 0; i < length; i ++)
-    /* printf("#"); */
-    /* if ( !strcmp(args[i], "") ){ */
-    /*   printf("$"); */
-    /*   for (j = i; i < length - 1; j ++) */
-    /*     args[j] = args[j + 1]; */
-    /*   i --; */
-    /* } */
     if ( strcmp(args[i], "") ){
       //printf("$");
       new_args[j] = args[i];
@@ -38,7 +31,7 @@ char** rm_space(char** args){
 }
 
 char** parse_args(char* line, char* delim){
-  char** args = calloc(16, sizeof(char*));
+  char** args = calloc(strlen(line), sizeof(char*));
   int i = 0;
   while (line){
     args[i] = strsep(&line, delim);

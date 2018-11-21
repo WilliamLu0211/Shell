@@ -10,9 +10,9 @@
 int main(){
   char* input;
   char* cwd;
-  char** args;
+  // char** args;
   char* piece;
-  int f, status;
+  // int f, status;
   // char broke;
 
   while (1){
@@ -29,21 +29,12 @@ int main(){
     // args = parse_args( input, " " );
     // broke = 0;
 
-    while(piece = strsep(&input, ";")){
+    while (piece = strsep(&input, ";")){
     // printf("%s", args[0]);
-      args = parse_args(piece, " ");
-      if (!strcmp(args[0], "cd"))
-        chdir(args[1]);
 
-      else{
-        f = fork();
-        if (!f)
-          execvp(args[0], args);
-          // return 0;
-        // else{
-        wait(&status);
         // }
-      }
+      if (execute(piece))
+        return 0;
     }
     // if (broke)
     //   break;
@@ -53,6 +44,7 @@ int main(){
     // break;
     free(input);
     free(cwd);
+    free(piece);
     // free(args);
   }
 

@@ -1,10 +1,23 @@
 #include "helper.h"
 
-int execute(char* input, char* dir){
-  char ** args = parse_args( input, " " );
+int execute(char* piece){
+  int f, status;
+  char** args = parse_args(piece, " ");
   if ( !strcmp(args[0], "cd") )
-    return chdir(args[1]);
-  execvp(args[0], args);
+    chdir(args[1]);
+
+  else if ( !strcmp(args[0], "exit") )
+    // exit(0);
+    return 1;
+
+  else{
+    f = fork();
+    if (!f)
+      execvp(args[0], args);
+      // return 0;
+    // else{
+    wait(&status);
+  }
   return 0;
 }
 
@@ -35,7 +48,7 @@ char** rm_space(char** args){
 }
 
 char** parse_args(char* line, char* delim){
-  char** args = calloc(16, sizeof(char*));
+  char** args = calloc(strlen(line), sizeof(char*));
   int i = 0;
   while (line){
     args[i] = strsep(&line, delim);
@@ -45,4 +58,3 @@ char** parse_args(char* line, char* delim){
   args[i] = 0;
   return rm_space(args);
 }
-
