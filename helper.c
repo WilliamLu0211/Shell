@@ -47,7 +47,7 @@ char** rm_space(char** args){
 }
 
 char** parse_args(char* line, char* delim){
-  char** args = malloc(strlen(line) * sizeof(size_t)); // error aborted
+  char** args = malloc(strlen(line) * sizeof(char*)); // error aborted
   // printf("%ld\n", strlen(line) * sizeof(char*));
   int i = 0;
   while (args[i] = strsep(&line, delim))
