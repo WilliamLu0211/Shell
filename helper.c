@@ -4,7 +4,6 @@ int execute(char* piece){
   int f, status;
 
   char** args = parse_args(piece, " ");
-  args = rm_space(args);
   // for (int i = 0; args[i]; i ++)
   //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
@@ -55,5 +54,5 @@ char** parse_args(char* line, char* delim){
     i ++;
   //printf("%p\n", line);
   args[i] = 0;
-  return args;
+  return rm_space(args);
 }
