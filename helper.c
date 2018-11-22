@@ -20,6 +20,7 @@ int execute(char* piece){
       // return 0;
     wait(&status);
   }
+  free(args);
   return 0;
 }
 
@@ -43,6 +44,7 @@ char** rm_space(char** args){
       j ++;
     }
   new_args[j] = 0;
+  free(args);
   return new_args;
 }
 
