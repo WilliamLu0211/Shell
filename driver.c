@@ -35,8 +35,8 @@ int main(){
     dummy = input;
     while (piece = strsep(&dummy, ";")){
     // printf("%s", args[0]);
-      printf("[%s]\n", piece);
-      printf("[%s]\n", dummy);
+      // printf("[%s]\n", piece);
+      // printf("[%s]\n", dummy);
       // printf("[%s]\n", input);
         // }
       if (execute(piece))
