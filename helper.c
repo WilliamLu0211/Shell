@@ -3,7 +3,7 @@
 int execute(char* piece){
   int f, status;
 
-  char** args = parse_args(piece, " ");
+  char** args = parse_args(piece);
   // for (int i = 0; args[i]; i ++)
   //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
@@ -34,27 +34,25 @@ int get_length(char** args){
 
 char** rm_space(char** args){
   int length = get_length(args);
-  // printf("%d\n", length);
-  char** new_args = malloc(length * sizeof(char*));
-  int i = 0, j = 0;
-  for (; i < length; i ++)
-    if ( strcmp(args[i], "") ){
-      //printf("$");
-      new_args[j] = args[i];
-      j ++;
+  int i, j;
+  for (int i = 0; i < length; i ++)
+    if ( !strcmp(args[i], "") ){
+      for (j = i; j < length - 1; j ++)
+        args[j] = args[j + 1];
+      args[j] = 0;
+      length --;
+      i --;
     }
-  new_args[j] = 0;
-  free(args);
-  return new_args;
+  return args;
 }
 
-char** parse_args(char* line, char* delim){
-  char** args = malloc(strlen(line) * sizeof(char*)); // error aborted
+char** parse_args(char* line){
+  char** args = calloc(strlen(line), sizeof(char*)); // error aborted
   // printf("%ld\n", strlen(line) * sizeof(char*));
-  int i = 0;
-  while (args[i] = strsep(&line, delim))
-    i ++;
+  int i;
+  for (i = 0; line; i ++)
+    args[i] = strsep(&line, " ");
   //printf("%p\n", line);
-  args[i] = 0;
+  // args[i] = 0;
   return rm_space(args);
 }

@@ -10,4 +10,4 @@ int get_length(char** args);
 
 char** rm_space(char** args);
 
-char** parse_args(char* line, char* delim);
+char** parse_args(char* line);

@@ -10,8 +10,8 @@
 #define STR_LEN 256
 
 int main(){
-  char* input;
-  char* cwd;
+  char input[STR_LEN];
+  char cwd[STR_LEN];
   // char** args;
   char* piece;
   char* dummy;
@@ -20,8 +20,8 @@ int main(){
 
   while (1){
 
-    input = malloc(STR_LEN);
-    cwd = malloc(STR_LEN);
+    // input = malloc(STR_LEN);
+    // cwd = malloc(STR_LEN);
     // piece = malloc(256);
 
     getcwd(cwd, STR_LEN);
@@ -49,8 +49,8 @@ int main(){
     // wait(&status);
 
     // break;
-    free(input);
-    free(cwd);
+    // free(input);
+    // free(cwd);
     // free(piece);
     // free(args);
   }
