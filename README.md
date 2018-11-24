@@ -6,3 +6,11 @@
 3. **Bugs**
 4. **Function Headers**
 ```
+int execute(char* piece);
+
+int get_length(char** args);
+
+char** rm_space(char** args);
+
+char** parse_args(char* line);
+```
