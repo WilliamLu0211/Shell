@@ -1,0 +1,29 @@
+total 72
+drwxr-xr-x  4 stsui2 student  4096 Nov 27 10:42 .
+drwxr-xr-x 56 stsui2 student  4096 Nov 27 10:28 ..
+-rwxr-xr-x  1 stsui2 student 13384 Nov 27 10:42 a.out
+-rw-r--r--  1 stsui2 student  1052 Nov 27 10:27 driver.c
+-rw-r--r--  1 stsui2 student  2080 Nov 27 10:30 driver.o
+drwxr-xr-x  2 stsui2 student  4096 Nov 20 10:25 folder
+-rw-r--r--  1 stsui2 student     0 Nov 27 10:42 foo
+drwxr-xr-x  8 stsui2 student  4096 Nov 27 10:29 .git
+-rw-r--r--  1 stsui2 student   430 Nov 20 10:24 .gitignore
+-rw-r--r--  1 stsui2 student  2294 Nov 27 10:42 helper.c
+-rw-r--r--  1 stsui2 student   280 Nov 27 10:27 helper.h
+-rw-r--r--  1 stsui2 student  4512 Nov 27 10:42 helper.o
+-rw-r--r--  1 stsui2 student     0 Nov 27 10:41 -l
+-rw-r--r--  1 stsui2 student   169 Nov 20 10:24 makefile
+-rw-r--r--  1 stsui2 student   320 Nov 27 10:27 README.md
+-rw-r--r--  1 stsui2 student  1520 Nov 27 10:27 test.c
+a.out
+driver.c
+driver.o
+folder
+foo
+helper.c
+helper.h
+helper.o
+-l
+makefile
+README.md
+test.c

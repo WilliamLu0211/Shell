@@ -15,3 +15,5 @@ char** parse_args(char* line);
 int my_input(char ** args);
 
 int my_output(char ** args);
+
+int my_append(char ** args);
