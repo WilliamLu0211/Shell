@@ -11,3 +11,7 @@ int get_length(char** args);
 char** rm_space(char** args);
 
 char** parse_args(char* line);
+
+int my_input(char ** args);
+
+int my_output(char ** args);
