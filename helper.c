@@ -93,7 +93,7 @@ int my_output(char ** args){
 }
 
 char** parse_args(char* line){
-  char** args = calloc(strlen(line), sizeof(char*)); // error aborted
+  char** args = calloc(strlen(line), sizeof(char*));
   // printf("%ld\n", strlen(line) * sizeof(char*));
   int i;
   for (i = 0; line; i ++)
