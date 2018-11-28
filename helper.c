@@ -23,9 +23,9 @@ int execute(char* piece){
         if (! strcmp(args[get_length(args)-2], ">" ) ){
           my_input(args);
         }
-	if (! strcmp(args[get_length(args)-2], ">>") ){
-	  my_append(args);
-	}
+      	if (! strcmp(args[get_length(args)-2], ">>") ){
+      	  my_append(args);
+      	}
         if (! strcmp(args[get_length(args)-2], "<" ) ){
           my_output(args);
         }
