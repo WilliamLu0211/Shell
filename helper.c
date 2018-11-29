@@ -1,9 +1,7 @@
 #include "helper.h"
 
-int execute(char* piece){
+int execute(char** args){
   int f, status;
-
-  char** args = parse_args(piece);
   // for (int i = 0; args[i]; i ++)
   //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
@@ -34,6 +32,9 @@ int execute(char* piece){
           // printf("#");
           my_input(args);
         }
+        for (int i = get_length(args) - 1; i >= 0; i --)
+          if (! strcmp(args[i], "|"))
+            my_pipe(args, i);
       }
       execvp(args[0], args);
     }
@@ -125,7 +126,7 @@ int my_input(char ** args){
   dup2(fd, STDIN_FILENO);
   while( fgets(cur, 256, stdin)){
     strcat(s, cur);
-    strcat(s, "\n");
+    // strcat(s, "\n");
   }
   // fgets(s, 256, stdin);
   // printf("%s\n", s);
@@ -135,6 +136,32 @@ int my_input(char ** args){
   // dup2(fd, STDIN_FILENO);
   // close(fd);
 
+}
+
+int my_pipe(char** args, int i){
+  int fds[2];
+  pipe(fds);
+  int f = fork();
+  if (!f){
+    // close(fd[1]);
+    dup2(fds[1], STDOUT_FILENO);
+    args[i] = NULL;
+    execute(args);
+  } else {
+    dup2(fds[0], STDIN_FILENO);
+    char s[1024];
+    char cur[256];
+    // dup2(fd, STDIN_FILENO);
+    while( fgets(cur, 256, stdin)){
+      strcat(s, cur);
+      // strcat(s, "\n");
+    }
+    args += i + 1;
+    int j;
+    for (j = 0; args[j]; j ++){}
+    args[j] = s;
+    execvp(args[0], args);
+  }
 }
 
 char** parse_args(char* line){

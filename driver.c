@@ -10,7 +10,7 @@
 int main(){
   char input[STR_LEN];
   char cwd[STR_LEN];
-  // char** args;
+  char** args;
   char* piece;
   char* dummy;
   // int f, status;
@@ -37,7 +37,8 @@ int main(){
       // printf("[%s]\n", dummy);
       // printf("[%s]\n", input);
         // }
-      if (execute(piece))
+      args = parse_args(piece);
+      if (execute(args))
         return 0;
       // free(piece);
     }
