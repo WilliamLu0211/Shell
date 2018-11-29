@@ -25,18 +25,33 @@ char** parse_args(char* line);
 
 
 char** rm_space(char** args);
-/* Description
+/* Description: Iterates through the args array to remove space characters from each of the array indices.
+   Input: Array args, containing the terminal commands
+   Output: Input array but with spaces removed
 */
 
 int get_length(char** args);
 /* Description: get_length iterates throught the args array. It finds the number of string pointers in the args array.
-   Input: Array of pointers to strings. Each string originally came from
+   Input: Array of pointers to strings. The strings contain phrases from the command line input
    Output: returns an integer which is the length of the array.
 */
 
 int my_input(char ** args);
+/* Description: Swaps file descriptors of a given file and STDIN. 
+   Redirects STDIN to take the file's contents as execute input.
+   Input: Array of terminal commands
+   Output: Reads from and runs the contents of a given file. Processes executed in terminal 
+*/
+
+
 
 int my_output(char ** args);
+/* Description: Swaps the file descriptors of a given file and STDOUT.
+   Results of commands executed in the terminal are written into a file instead of being displayed in terminal
+   File will be overwritten
+   Input: Array of terminal commands
+   Output: A file whose contents contain the executed commands of args.
+*/
 
 int my_append(char ** args);
 
