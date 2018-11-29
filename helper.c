@@ -4,8 +4,8 @@ int execute(char* piece){
   int f, status;
 
   char** args = parse_args(piece);
-  /* for (int i = 0; args[i]; i ++) */
-  /*   printf("[%s]\n", args[i]); */
+  // for (int i = 0; args[i]; i ++)
+  //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
     chdir(args[1]);
 
@@ -16,26 +16,27 @@ int execute(char* piece){
 
   else {
     f = fork();
-    if (!f)
+    if (!f){
       if(get_length(args) > 1){
+        // printf("%d\n", !strcmp(args[get_length(args)-2], ">>"));
+        // printf("sdfawefasdg");
         // printf("%s\n", args[1]);
         // printf("%d\n", strcmp(args[1], ">"));
         if (! strcmp(args[get_length(args)-2], ">" ) ){
+          // printf("#");
           my_input(args);
         }
       	if (! strcmp(args[get_length(args)-2], ">>") ){
+          // printf("#");
       	  my_append(args);
       	}
         if (! strcmp(args[get_length(args)-2], "<" ) ){
+          // printf("#");
           my_output(args);
         }
-        else{
-          execvp(args[0], args);
-        }
       }
-      else{
-        execvp(args[0], args);
-      }
+      execvp(args[0], args);
+    }
       // return 0;
     wait(&status);
   }
@@ -66,10 +67,9 @@ char** rm_space(char** args){
 }
 
 int my_input(char ** args){
-  int placeholder = dup(STDOUT_FILENO);
-  get_length(args);
-  int fd;
-  fd = open(args[get_length(args)-1], O_WRONLY, 0777);
+  // int ph = dup(STDOUT_FILENO);
+
+  int fd = open(args[get_length(args)-1], O_WRONLY | O_CREAT, 0777);
   // printf("Phase 1\n");
   // printf("STDOUT: %d\n", STDOUT_FILENO);
   // printf("fp: %d\n", fileno(fp));
@@ -81,40 +81,58 @@ int my_input(char ** args){
   // printf("fp: %d\n", fileno(fp));
 
   // execvp(args[0], args);
-  dup2(placeholder, STDOUT_FILENO);
+  // dup2(placeholder, STDOUT_FILENO);
   // printf("Phase 3 \n");
   // printf("STDOUT: %d\n", STDOUT_FILENO);
   // printf("fp: %d\n", fileno(fp));
-  close(fd);
+  // close(fd);
   return 0;
 }
 
 int my_append(char ** args){
-  int placeholder = dup(STDOUT_FILENO);
-  get_length(args);
-  int fd = open(args[get_length(args)-1], O_APPEND, 0777);
+  // int ph = dup(STDOUT_FILENO);
+
+  int fd = open(args[get_length(args)-1], O_WRONLY | O_APPEND | O_CREAT, 0777);
+  // printf("Phase 1\n");
+  // printf("STDOUT: %d\n", STDOUT_FILENO);
+  // printf("fd: %d\n", fd);
+
   dup2(fd, STDOUT_FILENO);
+  // printf("%s\n", strerror(errno));
   args[get_length(args)-2] = NULL;
+  // printf("%s\n", args[0]);
   execvp(args[0], args);
-  dup2(placeholder, STDOUT_FILENO);
-  close(fd);
+  // printf("Phase 2\n");
+  // printf("STDOUT: %d\n", placeholder);
+  // printf("fp: %d\n", fileno(fp));
+
+  // execvp(args[0], args);
+  // dup2(placeholder, STDOUT_FILENO);
+  // printf("Phase 3 \n");
+  // printf("STDOUT: %d\n", STDOUT_FILENO);
+  // printf("fp: %d\n", fileno(fp));
+  // close(fd);
   return 0;
 }
 
 int my_output(char ** args){
-  int placeholder = dup(STDIN_FILENO);
-  int fd;
-  fd = open(args[get_length(args)-1], O_RDONLY, 0777);
-  char s[256];
-  read(fd, s, sizeof(s));
-  int i;
-  for(i = 0; strcmp(args[i], "<"); i++){
-  }
-  args[i] = s;
-  execvp(args[0], args);
+  // int ph = dup(STDIN_FILENO);
+  // printf("%s\n", args[get_length(args)-1]);
+  int fd = open(args[get_length(args)-1], O_RDONLY);
+  // printf("%s\n", strerror(errno));
+  char s[1024];
+  char cur[256];
   dup2(fd, STDIN_FILENO);
-  close(fd);
-  
+  while( fgets(cur, 256, stdin))
+    strcat(s, cur);
+  // fgets(s, 256, stdin);
+  // printf("%s\n", s);
+  args[get_length(args) - 2] = s;
+  args[get_length(args) - 1] = NULL;
+  execvp(args[0], args);
+  // dup2(fd, STDIN_FILENO);
+  // close(fd);
+
 }
 
 char** parse_args(char* line){

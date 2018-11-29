@@ -3,73 +3,19 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
-
-int get_length(char** args){
-  int length = 0;
-  //printf("|%d|\n", dummy);
-  while (args[length])
-    length ++;
-  return length;
-}
-
-char** rm_space(char** args){
-  int length = get_length(args);
-  //printf("%d\n", length);
-  char** new_args = malloc(length * sizeof(char*));
-  int i = 0, j = 0;
-  for (; i < length; i ++)
-    if ( strcmp(args[i], "") ){
-      //printf("$");
-      new_args[j] = args[i];
-      j ++;
-    }
-  new_args[j] = 0;
-  return new_args;
-}
-
-char** parse_args(char* line, char* delim){
-  char** args = malloc(strlen(line) * sizeof(char*));
-  int i = 0;
-  while (args[i] = strsep(&line, delim))
-    i ++;
-  //printf("%p\n", line);
-  args[i] = 0;
-  return rm_space(args);
-}
-
-int execute(char* piece){
-  int f, status;
-  char** args = parse_args(piece, " ");
-  // for (int i = 0; args[i]; i ++)
-  //   printf("[%s]\n", args[i]);
-  if ( !strcmp(args[0], "cd") )
-    chdir(args[1]);
-
-  else if ( !strcmp(args[0], "exit") )
-    // exit(0);
-    return 1;
-
-  else {
-    f = fork();
-    if (!f)
-      execvp(args[0], args);
-      // return 0;
-    wait(&status);
-  }
-  return 0;
-}
+#include <fcntl.h>
 
 int main(){
-  // char line[] = "ls   -a  -l";
-  // char ** args = parse_args( line, " " );
-  // //rm_space(args);
-  // // execvp(args[0], args);
-
-  // printf("%ld\n", sizeof(char*));
-  char s[] = "   ps -a";
-  char** args = parse_args(s, " ");
-  for (int i = 0; i < 2; i ++)
-      printf("[%s]\n", args[i]);
+  int fd = open("foo", O_WRONLY | O_CREAT, 0777);
+  // printf("Phase 1\n");
+  // printf("STDOUT: %d\n", STDOUT_FILENO);
+  // printf("fp: %d\n", fileno(fp));
+  dup2(fd, STDOUT_FILENO);
+  // args[get_length(args)-2] = NULL;
+  // printf("%s\n", args[0]);
+  char* args[2];
+  args[1] = "fortune";
+  args[2] = NULL;
+  execvp(args[0], args);
   return 0;
 }

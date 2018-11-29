@@ -6,6 +6,8 @@
 #include <errno.h>
 #include <sys/wait.h>
 
+#define STR_LEN 256
+
 int execute(char* piece);
 
 int get_length(char** args);

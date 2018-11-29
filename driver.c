@@ -7,8 +7,6 @@
 
 #include "helper.h"
 
-#define STR_LEN 256
-
 int main(){
   char input[STR_LEN];
   char cwd[STR_LEN];
