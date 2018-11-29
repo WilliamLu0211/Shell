@@ -24,7 +24,7 @@ int execute(char* piece){
         // printf("%d\n", strcmp(args[1], ">"));
         if (! strcmp(args[get_length(args)-2], ">" ) ){
           // printf("#");
-          my_input(args);
+          my_output(args);
         }
       	if (! strcmp(args[get_length(args)-2], ">>") ){
           // printf("#");
@@ -32,7 +32,7 @@ int execute(char* piece){
       	}
         if (! strcmp(args[get_length(args)-2], "<" ) ){
           // printf("#");
-          my_output(args);
+          my_input(args);
         }
       }
       execvp(args[0], args);
@@ -66,7 +66,7 @@ char** rm_space(char** args){
   return args;
 }
 
-int my_input(char ** args){
+int my_output(char ** args){
   // int ph = dup(STDOUT_FILENO);
 
   int fd = open(args[get_length(args)-1], O_WRONLY | O_CREAT, 0777);
@@ -115,7 +115,7 @@ int my_append(char ** args){
   return 0;
 }
 
-int my_output(char ** args){
+int my_input(char ** args){
   // int ph = dup(STDIN_FILENO);
   // printf("%s\n", args[get_length(args)-1]);
   int fd = open(args[get_length(args)-1], O_RDONLY);
