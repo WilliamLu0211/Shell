@@ -123,8 +123,10 @@ int my_input(char ** args){
   char s[1024];
   char cur[256];
   dup2(fd, STDIN_FILENO);
-  while( fgets(cur, 256, stdin))
+  while( fgets(cur, 256, stdin)){
     strcat(s, cur);
+    strcat(s, "\n");
+  }
   // fgets(s, 256, stdin);
   // printf("%s\n", s);
   args[get_length(args) - 2] = s;
