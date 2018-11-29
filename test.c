@@ -6,7 +6,7 @@
 #include <fcntl.h>
 
 int main(){
-  int fd = open("foo", O_WRONLY | O_CREAT, 0777);
+  int fd = open("foo", O_WR | O_CREAT, 0777);
   // printf("Phase 1\n");
   // printf("STDOUT: %d\n", STDOUT_FILENO);
   // printf("fp: %d\n", fileno(fp));

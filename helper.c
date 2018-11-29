@@ -2,8 +2,8 @@
 
 int execute(char** args){
   int f, status;
-  for (int i = 0; args[i]; i ++)
-    printf("[%s]\n", args[i]);
+  // for (int i = 0; args[i]; i ++)
+  //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
     chdir(args[1]);
 
@@ -16,10 +16,6 @@ int execute(char** args){
     f = fork();
     if (!f){
       if(get_length(args) > 1){
-        // printf("%d\n", !strcmp(args[get_length(args)-2], ">>"));
-        // printf("sdfawefasdg");
-        // printf("%s\n", args[1]);
-        // printf("%d\n", strcmp(args[1], ">"));
         if (! strcmp(args[get_length(args)-2], ">" ) ){
           // printf("#");
           my_output(args);
@@ -34,8 +30,10 @@ int execute(char** args){
         }
         for (int i = get_length(args) - 1; i >= 0; i --)
           if (! strcmp(args[i], "|")){
+            // printf("#");
             args[i] = NULL;
             char** out = args + i + 1;
+            // printf("%s\n", out[0]);
             my_pipe(args, out);
           }
       }
@@ -72,73 +70,41 @@ char** rm_space(char** args){
 }
 
 int my_output(char ** args){
-  // int ph = dup(STDOUT_FILENO);
 
   int fd = open(args[get_length(args)-1], O_WRONLY | O_CREAT, 0777);
-  // printf("Phase 1\n");
-  // printf("STDOUT: %d\n", STDOUT_FILENO);
-  // printf("fp: %d\n", fileno(fp));
-  dup2(fd, STDOUT_FILENO);
+
   args[get_length(args)-2] = NULL;
   execvp(args[0], args);
-  // printf("Phase 2\n");
-  // printf("STDOUT: %d\n", placeholder);
-  // printf("fp: %d\n", fileno(fp));
 
-  // execvp(args[0], args);
-  // dup2(placeholder, STDOUT_FILENO);
-  // printf("Phase 3 \n");
-  // printf("STDOUT: %d\n", STDOUT_FILENO);
-  // printf("fp: %d\n", fileno(fp));
-  // close(fd);
   return 0;
 }
 
 int my_append(char ** args){
-  // int ph = dup(STDOUT_FILENO);
 
   int fd = open(args[get_length(args)-1], O_WRONLY | O_APPEND | O_CREAT, 0777);
-  // printf("Phase 1\n");
-  // printf("STDOUT: %d\n", STDOUT_FILENO);
-  // printf("fd: %d\n", fd);
+
 
   dup2(fd, STDOUT_FILENO);
-  // printf("%s\n", strerror(errno));
-  args[get_length(args)-2] = NULL;
-  // printf("%s\n", args[0]);
-  execvp(args[0], args);
-  // printf("Phase 2\n");
-  // printf("STDOUT: %d\n", placeholder);
-  // printf("fp: %d\n", fileno(fp));
 
-  // execvp(args[0], args);
-  // dup2(placeholder, STDOUT_FILENO);
-  // printf("Phase 3 \n");
-  // printf("STDOUT: %d\n", STDOUT_FILENO);
-  // printf("fp: %d\n", fileno(fp));
-  // close(fd);
+  args[get_length(args)-2] = NULL;
+
+  execvp(args[0], args);
+
   return 0;
 }
 
 int my_input(char ** args){
-  // int ph = dup(STDIN_FILENO);
-  // printf("%s\n", args[get_length(args)-1]);
+
   int fd = open(args[get_length(args)-1], O_RDONLY);
-  // printf("%s\n", strerror(errno));
   char s[1024];
   char cur[256];
   dup2(fd, STDIN_FILENO);
-  while( fgets(cur, 256, stdin)){
+  while( fgets(cur, 256, stdin))
     strcat(s, cur);
-    // strcat(s, "\n");
-  }
-  // fgets(s, 256, stdin);
-  // printf("%s\n", s);
+
   args[get_length(args) - 2] = s;
   args[get_length(args) - 1] = NULL;
   execvp(args[0], args);
-  // dup2(fd, STDIN_FILENO);
-  // close(fd);
 
 }
 
@@ -150,21 +116,32 @@ int my_pipe(char** args, char** out){
     // close(fd[1]);
     // printf("#");
     dup2(fds[1], STDOUT_FILENO);
-    execvp(args[0], args);
+    // execvp(args[0], args);
+    execute(args);
+    // write(fds[1], "lmfao", 7);
   } else {
-    dup2(fds[0], STDIN_FILENO);
+    // dup2(fds[0], STDIN_FILENO);
     char s[1024];
-    char cur[256];
+    // char cur[256];
     // dup2(fd, STDIN_FILENO);
-    while( fgets(cur, 256, stdin)){
-      strcat(s, cur);
-      // strcat(s, "\n");
-    }
-    printf("%s\n", s);
+    // while( fgets(cur, 256, stdin)){
+    //   strcat(s, cur);
+    //   // strcat(s, "\n");
+    // }
+    //
+    // while(scanf(" %[^\n]s", cur) != EOF){
+    //   strcat(s, cur);
+    // }
+    int size = read(fds[0], s, sizeof(s));
+    s[size] = 0;
+    // fgets(s, 1024, stdin);
+    // printf("[%s]\n", s);
     int i;
-    for (i = 0; out[i]; i ++){}
+    for (i = 0; out[i]; i ++);
     out[i] = s;
     execvp(out[0], out);
+    // read(fds[0], s, 7);
+    // printf("%s\n", s);
   }
 }
 
@@ -174,9 +151,6 @@ char** parse_args(char* line){
   int i;
   for (i = 0; line; i ++)
     args[i] = strsep(&line, " ");
-    if (args[i] == ">"){
-
-    }
   //printf("%p\n", line);
   // args[i] = 0;
   return rm_space(args);
