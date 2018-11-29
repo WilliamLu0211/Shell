@@ -55,4 +55,4 @@ int my_output(char ** args);
 
 int my_append(char ** args);
 
-int my_pipe(char ** args, int i);
+int my_pipe(char ** args, char ** out);

@@ -2,8 +2,8 @@
 
 int execute(char** args){
   int f, status;
-  // for (int i = 0; args[i]; i ++)
-  //   printf("[%s]\n", args[i]);
+  for (int i = 0; args[i]; i ++)
+    printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
     chdir(args[1]);
 
@@ -33,9 +33,13 @@ int execute(char** args){
           my_input(args);
         }
         for (int i = get_length(args) - 1; i >= 0; i --)
-          if (! strcmp(args[i], "|"))
-            my_pipe(args, i);
+          if (! strcmp(args[i], "|")){
+            args[i] = NULL;
+            char** out = args + i + 1;
+            my_pipe(args, out);
+          }
       }
+      // printf("#");
       execvp(args[0], args);
     }
       // return 0;
@@ -138,15 +142,15 @@ int my_input(char ** args){
 
 }
 
-int my_pipe(char** args, int i){
+int my_pipe(char** args, char** out){
   int fds[2];
   pipe(fds);
   int f = fork();
   if (!f){
     // close(fd[1]);
+    // printf("#");
     dup2(fds[1], STDOUT_FILENO);
-    args[i] = NULL;
-    execute(args);
+    execvp(args[0], args);
   } else {
     dup2(fds[0], STDIN_FILENO);
     char s[1024];
@@ -156,11 +160,11 @@ int my_pipe(char** args, int i){
       strcat(s, cur);
       // strcat(s, "\n");
     }
-    args += i + 1;
-    int j;
-    for (j = 0; args[j]; j ++){}
-    args[j] = s;
-    execvp(args[0], args);
+    printf("%s\n", s);
+    int i;
+    for (i = 0; out[i]; i ++){}
+    out[i] = s;
+    execvp(out[0], out);
   }
 }
 
