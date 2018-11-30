@@ -116,8 +116,8 @@ int my_pipe(char** args, char** out){
     // close(fd[1]);
     // printf("#");
     dup2(fds[1], STDOUT_FILENO);
-    // execvp(args[0], args);
-    execute(args);
+    execvp(args[0], args);
+    //execute(args);
     // write(fds[1], "lmfao", 7);
   } else {
     // dup2(fds[0], STDIN_FILENO);
@@ -132,14 +132,17 @@ int my_pipe(char** args, char** out){
     // while(scanf(" %[^\n]s", cur) != EOF){
     //   strcat(s, cur);
     // }
-    int size = read(fds[0], s, sizeof(s));
-    s[size] = 0;
+    dup2(fds[0], STDIN_FILENO);
+    int size = read(STDIN_FILENO, s, sizeof(s));
+    //s[size] = 0;
     // fgets(s, 1024, stdin);
     // printf("[%s]\n", s);
-    int i;
-    for (i = 0; out[i]; i ++);
-    out[i] = s;
+    //int i;
+    //for (i = 0; out[i]; i ++);
+    //out[i] = s;
+    printf("%s\n", s);
     execvp(out[0], out);
+    // popen(out[0], "r");
     // read(fds[0], s, 7);
     // printf("%s\n", s);
   }
