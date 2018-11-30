@@ -72,7 +72,7 @@ char** rm_space(char** args){
 int my_output(char ** args){
 
   int fd = open(args[get_length(args)-1], O_WRONLY | O_CREAT, 0777);
-
+  dup2(fd, STDOUT_FILENO);
   args[get_length(args)-2] = NULL;
   execvp(args[0], args);
 
