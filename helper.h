@@ -36,16 +36,16 @@ int get_length(char** args);
    Output: returns an integer which is the length of the array.
 */
 
-int my_input(char ** args);
-/* Description: Swaps file descriptors of a given file and STDIN. 
+void my_input(char ** args, char* file);
+/* Description: Swaps file descriptors of a given file and STDIN.
    Redirects STDIN to take the file's contents as execute input.
    Input: Array of terminal commands
-   Output: Reads from and runs the contents of a given file. Processes executed in terminal 
+   Output: Reads from and runs the contents of a given file. Processes executed in terminal
 */
 
 
 
-int my_output(char ** args);
+void my_output(char ** args, char* file);
 /* Description: Swaps the file descriptors of a given file and STDOUT.
    Results of commands executed in the terminal are written into a file instead of being displayed in terminal
    File will be overwritten
@@ -53,6 +53,6 @@ int my_output(char ** args);
    Output: A file whose contents contain the executed commands of args.
 */
 
-int my_append(char ** args);
+void my_append(char ** args, char* file);
 
-int my_pipe(char ** args, char ** out);
+void my_pipe(char ** args, char ** out);
