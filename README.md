@@ -2,9 +2,22 @@
 #### - by William Lu, Simon Tsui
 
 1. **Features Implemented Successfully**
+- Runs commands in child processes via forking.
+- >, >>, and < for redirecting.
+- | for piping
+- ; allows multiple for multiple commands to be exeuted
+- directory can be changed
+- Can pipe into wc function
 2. **Features Implemented Unsuccessfully**
+-
+-
+-
 3. **Bugs**
+-
+-
+
 4. **Function Headers**
+
 ```
 int execute(char* piece);
   in most cases, the function forks and then calls execvp() to execute the lines in the shell.
