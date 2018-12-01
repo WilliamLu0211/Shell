@@ -36,6 +36,8 @@ int get_length(char** args);
    Output: returns an integer which is the length of the array.
 */
 
+void my_exec(char** args);
+
 void my_input(char ** args, char* file);
 /* Description: Swaps file descriptors of a given file and STDIN.
    Redirects STDIN to take the file's contents as execute input.
