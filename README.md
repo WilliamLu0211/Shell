@@ -3,7 +3,7 @@
 
 1. **Features Implemented Successfully**
 - Runs commands in child processes via fork() and execvp()
-- >, >>, and < for redirecting
+-  >, >>, and < for redirecting
 - | for piping
 - ; allows multiple for multiple commands to be exeuted
 - can cd and exit
