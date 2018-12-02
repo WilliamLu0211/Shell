@@ -57,4 +57,4 @@ void my_output(char ** args, char* file);
 
 void my_append(char ** args, char* file);
 
-void my_pipe(char ** args, char ** out);
+void my_pipe(char ** in, char ** out);

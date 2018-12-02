@@ -35,9 +35,6 @@ int execute(char** args){
       }
   }
 
-  // int f, status;
-  // for (int i = 0; args[i]; i ++)
-  //   printf("[%s]\n", args[i]);
   if ( !strcmp(args[0], "cd") )
     chdir(args[1]);
 
@@ -46,14 +43,11 @@ int execute(char** args){
 
   else
     my_exec(args);
-
-  // free(args);
   return 0;
 }
 
 int get_length(char** args){
   int length = 0;
-  //printf("|%d|\n", dummy);
   while (args[length])
     length ++;
   return length;
@@ -76,7 +70,6 @@ char** rm_space(char** args){
 void my_exec(char** args){
   int f, status;
   f = fork();
-  // printf("");
   if (!f)
     execvp(args[0], args);
   else
@@ -115,30 +108,23 @@ void my_pipe(char** in, char** out){
   int ph;
   pipe(fds);
 
-    // close(fds[0]);
-    ph = dup(STDOUT_FILENO);
-    dup2(fds[1], STDOUT_FILENO);
+  ph = dup(STDOUT_FILENO);
+  dup2(fds[1], STDOUT_FILENO);
 
-    execute(in);
-    dup2(ph, STDOUT_FILENO);
-  // } else {
-    close(fds[1]);
-    ph = dup(STDIN_FILENO);
-    dup2(fds[0], STDIN_FILENO);
+  execute(in);
+  dup2(ph, STDOUT_FILENO);
+  close(fds[1]);
+  ph = dup(STDIN_FILENO);
+  dup2(fds[0], STDIN_FILENO);
 
-    execute(out);
-    dup2(ph, STDIN_FILENO);
-    // close(fds[0]);
-  // }
+  execute(out);
+  dup2(ph, STDIN_FILENO);
 }
 
 char** parse_args(char* line){
   char** args = calloc(strlen(line), sizeof(char*));
-  // printf("%ld\n", strlen(line) * sizeof(char*));
   int i;
   for (i = 0; line; i ++)
     args[i] = strsep(&line, " ");
-  //printf("%p\n", line);
-  // args[i] = 0;
   return rm_space(args);
 }
