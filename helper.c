@@ -76,6 +76,7 @@ char** rm_space(char** args){
 void my_exec(char** args){
   int f, status;
   f = fork();
+  // printf("");
   if (!f)
     execvp(args[0], args);
   else
@@ -88,7 +89,7 @@ void my_output(char ** args, char* file){
   dup2(fd, STDOUT_FILENO);
   execute(args);
   dup2(ph, STDOUT_FILENO);
-
+  close(fd);
 }
 
 void my_append(char ** args, char* file){
@@ -97,6 +98,7 @@ void my_append(char ** args, char* file){
   dup2(fd, STDOUT_FILENO);
   execute(args);
   dup2(ph, STDOUT_FILENO);
+  close(fd);
 }
 
 void my_input(char ** args, char* file){
@@ -105,55 +107,28 @@ void my_input(char ** args, char* file){
   dup2(fd, STDIN_FILENO);
   execute(args);
   dup2(ph, STDIN_FILENO);
-
+  close(fd);
 }
 
 void my_pipe(char** in, char** out){
   int fds[2];
-  int ph, f, s;
+  int ph;
   pipe(fds);
-  // f = fork();
-  // if (!f){
+
     // close(fds[0]);
-    // printf("#");
     ph = dup(STDOUT_FILENO);
     dup2(fds[1], STDOUT_FILENO);
-    // execvp(args[0], args);
-    // execute(in);
+
     execute(in);
     dup2(ph, STDOUT_FILENO);
-    //execute(args);
-    // write(fds[1], "lmfao", 7);
   // } else {
-    // dup2(fds[0], STDIN_FILENO);
-    // char s[1024];
-    // char cur[256];
-    // dup2(fd, STDIN_FILENO);
-    // while( fgets(cur, 256, stdin)){
-    //   strcat(s, cur);
-    //   // strcat(s, "\n");
-    // }
-    //
-    // while(scanf(" %[^\n]s", cur) != EOF){
-    //   strcat(s, cur);
-    // }
-    // wait(&s);
     close(fds[1]);
     ph = dup(STDIN_FILENO);
     dup2(fds[0], STDIN_FILENO);
-    // int size = read(STDIN_FILENO, s, sizeof(s));
-    //s[size] = 0;
-    // fgets(s, 1024, stdin);
-    // printf("[%s]\n", s);
-    //int i;
-    //for (i = 0; out[i]; i ++);
-    //out[i] = s;
-    // printf("%s\n", s);
-    my_exec(out);
+
+    execute(out);
     dup2(ph, STDIN_FILENO);
-    // popen(out[0], "r");
-    // read(fds[0], s, 7);
-    // printf("%s\n", s);
+    // close(fds[0]);
   // }
 }
 
