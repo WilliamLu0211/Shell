@@ -2,15 +2,16 @@
 #### - by William Lu, Simon Tsui
 
 1. **Features Implemented Successfully**
-- Runs commands in child processes via forking.
-- >, >>, and < for redirecting.
+- Runs commands in child processes via fork() and execvp()
+- >, >>, and < for redirecting
 - | for piping
 - ; allows multiple for multiple commands to be exeuted
-- directory can be changed
-- Can pipe into wc function
+- can cd and exit
+- single pipe
+- multiple redirects limited to one or less pipe: for example, bash < input.txt | cowsay > output.txt works
 2. **Features Implemented Unsuccessfully**
--
--
+- Recursive piping: for example, fortune | cowsay | lolcat does not work
+- 
 -
 3. **Bugs**
 -
