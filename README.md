@@ -13,7 +13,7 @@
 - 
 -
 3. **Bugs**
--
+- After running each commands, current working directory is printed in order to best mimic bash. Therefore, if you test our shell using `./a.out < test_commands`, a number of current working directories will be printed at the end.
 -
 
 4. **Function Headers**
