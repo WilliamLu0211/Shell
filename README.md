@@ -5,7 +5,7 @@
 - Runs commands in child processes via `fork()` and `execvp()`
 -  `>`, `>>`, and `<` for redirecting
 - `|` for single pipe
-- ';' allows multiple for multiple commands to be exeuted
+- `;` allows multiple for multiple commands to be exeuted
 - can `cd` and `exit`
 - recursive redirecting limited to one or less pipe: for example, `bash < input.txt | cowsay > output.txt` works
 2. **Features Implemented Unsuccessfully**
