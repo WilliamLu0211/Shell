@@ -4,11 +4,10 @@
 1. **Features Implemented Successfully**
 - Runs commands in child processes via fork() and execvp()
 -  \>, >>, and < for redirecting
-- | for piping
+- | for single pipe
 - ; allows multiple for multiple commands to be exeuted
 - can cd and exit
-- single pipe
-- multiple redirects limited to one or less pipe: for example, bash < input.txt | cowsay > output.txt works
+- recursive redirecting limited to one or less pipe: for example, bash < input.txt | cowsay > output.txt works
 2. **Features Implemented Unsuccessfully**
 - Recursive piping: for example, fortune | cowsay | lolcat does not work
 - 
