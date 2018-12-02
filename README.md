@@ -2,16 +2,14 @@
 #### - by William Lu, Simon Tsui
 
 1. **Features Implemented Successfully**
-- Runs commands in child processes via fork() and execvp()
--  \>, >>, and < for redirecting
-- | for single pipe
+- Runs commands in child processes via `fork()` and `execvp()`
+-  `>`, `>>`, and `<` for redirecting
+- `|` for single pipe
 - ; allows multiple for multiple commands to be exeuted
-- can cd and exit
-- recursive redirecting limited to one or less pipe: for example, bash < input.txt | cowsay > output.txt works
+- can `cd` and `exit`
+- recursive redirecting limited to one or less pipe: for example, `bash < input.txt | cowsay > output.txt` works
 2. **Features Implemented Unsuccessfully**
-- Recursive piping: for example, fortune | cowsay | lolcat does not work
-- 
--
+- Recursive piping: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**
 - After running each commands, current working directory is printed in order to best mimic bash. Therefore, if you test our shell using `./a.out < test_commands`, a number of current working directories will be printed at the end.
 -
