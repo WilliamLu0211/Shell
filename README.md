@@ -6,8 +6,9 @@
 -  `>`, `>>`, and `<` for redirecting
 - `|` for single pipe
 - `;` allows multiple for multiple commands to be exeuted
-- can `cd` and `exit`
-- recursive redirecting limited to one or less pipe: for example, `bash < input.txt | cowsay > output.txt` works
+- Allows multiple spaces between arguments
+- Can `cd` and `exit`
+- Recursive redirecting limited to one or less pipe: for example, `bash < input.txt | cowsay > output.txt` works
 2. **Features Implemented Unsuccessfully**
 - Recursive piping: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**
