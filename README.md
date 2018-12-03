@@ -10,6 +10,7 @@
 - Can `cd` and `exit`
 - Recursive redirects, but limited to one or less pipe: even `bash < input.txt | cowsay > output.txt` works, WOW!
 - If there is no command before ";", the shell does not crash. It prints an error statement instead.
+- Ctrl + C interrupt does not exit the shell. This is similar to how Ctrl + C does not exit the bash.
 2. **Features Implemented Unsuccessfully**
 - Recursive pipes: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**

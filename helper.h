@@ -37,6 +37,10 @@ int get_length(char** args);
 */
 
 void my_exec(char** args);
+/* Description: Forks, executes command in child process, parent waits
+   Input: command line arguments
+   Output: Returns executued command args
+*/
 
 void my_input(char ** args, char* file);
 /* Description: Swaps file descriptors of a given file and STDIN.
@@ -56,5 +60,15 @@ void my_output(char ** args, char* file);
 */
 
 void my_append(char ** args, char* file);
+/* Description: Executes the command line arguments and stores these values in a file.
+   Does NOT overwrite file, appends the results to the back of the file.
+   Input: terminal commands, and file location to input into
+   Output: File's contents have been enlargened
+*/
 
 void my_pipe(char ** in, char ** out);
+/* Description: Makes STDOUT of one file command go into the STDIN of another file command.
+   Results of the original command are inputted into the second file command.
+   Input: command being inputted, command receiving the input
+   Output: The IN command is processed by the OUT command.
+*/
