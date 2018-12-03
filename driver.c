@@ -4,8 +4,18 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <signal.h>
 
 #include "helper.h"
+
+static void sighandler(int signo){
+   char cwd[STR_LEN];
+   if(signo == SIGINT){
+     getcwd(cwd, STR_LEN);
+     printf("\n%s> ", cwd);
+     fflush(stdout);
+   }
+}
 
 int main(){
   char input[STR_LEN];
@@ -15,11 +25,13 @@ int main(){
   char* dummy;
   int s;
 
+  signal(SIGINT, sighandler);
   while (1){
 
     getcwd(cwd, STR_LEN);
     printf("%s> ", cwd);
     scanf(" %[^\n]s", input);
+
 
     dummy = input;
     while (piece = strsep(&dummy, ";")){
