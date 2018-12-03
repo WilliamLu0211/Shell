@@ -1,6 +1,10 @@
 #include "helper.h"
 
 int execute(char** args){
+  if (!get_length(args)){
+    printf("syntax error near unexpected token \";\"\n");
+    return 2;
+  }
 
   if(get_length(args) > 1){
     if (! strcmp(args[get_length(args)-2], ">" ) ){

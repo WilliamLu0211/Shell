@@ -13,6 +13,7 @@ int main(){
   char** args;
   char* piece;
   char* dummy;
+  int s;
 
   while (1){
 
@@ -24,7 +25,10 @@ int main(){
     while (piece = strsep(&dummy, ";")){
 
       args = parse_args(piece);
-      if (execute(args))
+      s = execute(args);
+      if (s == 2)
+        break;
+      if (s == 1)
         return 0;
     }
   }

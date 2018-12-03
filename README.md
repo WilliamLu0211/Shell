@@ -9,6 +9,7 @@
 - Allows multiple spaces between arguments
 - Can `cd` and `exit`
 - Recursive redirects, but limited to one or less pipe: even `bash < input.txt | cowsay > output.txt` works, WOW!
+- If there is no command before ";", the shell does not crash. It prints an error statement instead.
 2. **Features Implemented Unsuccessfully**
 - Recursive pipes: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**
