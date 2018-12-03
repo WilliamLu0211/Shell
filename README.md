@@ -15,6 +15,7 @@
 3. **Bugs**
 - After running each commands, current working directory is printed in order to best mimic bash. Therefore, if you test our shell using `make run < test_commands`, a number of current working directories will be printed at the end.
 - Pressing tab while typing commands does not auto complete. Instead, a tab is taken as a delimiter (same as space) in `parse_args()`.
+- Pressing up arrow key does not copy the previous command.
 4. **Function Headers**
 
 ```
