@@ -125,6 +125,6 @@ char** parse_args(char* line){
   char** args = calloc(strlen(line), sizeof(char*));
   int i;
   for (i = 0; line; i ++)
-    args[i] = strsep(&line, " ");
+    args[i] = strsep(&line, " \t");
   return rm_space(args);
 }

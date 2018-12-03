@@ -8,11 +8,12 @@
 - `;` allows multiple for multiple commands to be exeuted
 - Allows multiple spaces between arguments
 - Can `cd` and `exit`
-- Recursive redirecting limited to one or less pipe: for example, `bash < input.txt | cowsay > output.txt` works
+- Recursive redirects, but limited to one or less pipe: even `bash < input.txt | cowsay > output.txt` works, WOW!
 2. **Features Implemented Unsuccessfully**
-- Recursive piping: for example, `fortune | cowsay | wc` does not work.
+- Recursive pipes: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**
-- After running each commands, current working directory is printed in order to best mimic bash. Therefore, if you test our shell using `./a.out < test_commands`, a number of current working directories will be printed at the end.
+- After running each commands, current working directory is printed in order to best mimic bash. Therefore, if you test our shell using `make run < test_commands`, a number of current working directories will be printed at the end.
+- Pressing tab while typing commands does not auto complete. Instead, a tab is taken as a delimiter (same as space) in `parse_args()`.
 4. **Function Headers**
 
 ```
@@ -30,7 +31,7 @@ char** rm_space(char** args);
 
 char** parse_args(char* line);
   Takes the initial line given and breaks it up using the strsep() function.
-  Splits by spaces.
+  Splits by spaces and tabs.
   Returns a pointer to head.
 
 void my_exec(char** args);
@@ -49,7 +50,7 @@ void my_output(char ** args, char* file);
 void my_append(char ** args, char* file);
   Is invoked when a ">>" sign is encountered in the input.
   Runs the same way as my_output() but appends.
-  
+
 void my_pipe(char** in, char** out);
   Is invoked when a "|" sign is encountered in the input.
   Redirects stdout of in into stdin of out.
