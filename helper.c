@@ -3,29 +3,29 @@
 int execute(char** args){
   if (!get_length(args)){
     printf("syntax error near unexpected token \";\"\n");
-    return 2;
+    return -2;
   }
   if(get_length(args) > 1){
     if (! strcmp(args[get_length(args)-2], ">" ) ){
       // printf("#");
       char* file = args[get_length(args)-1];
       args[get_length(args)-2] = 0;
-      my_output(args, file);
-      return 0;
+      return my_output(args, file);
+      // return 0;
     }
     if (! strcmp(args[get_length(args)-2], ">>") ){
       // printf("#");
       char* file = args[get_length(args)-1];
       args[get_length(args)-2] = 0;
-      my_append(args, file);
-      return 0;
+      return my_append(args, file);
+      // return 0;
     }
     if (! strcmp(args[get_length(args)-2], "<" ) ){
       // printf("#");
       char* file = args[get_length(args)-1];
       args[get_length(args)-2] = 0;
-      my_input(args, file);
-      return 0;
+      return my_input(args, file);
+      // return 0;
     }
     for (int i = get_length(args) - 1; i >= 0; i --)
       if (! strcmp(args[i], "|")){
@@ -33,20 +33,22 @@ int execute(char** args){
         args[i] = NULL;
         char** out = args + i + 1;
         // printf("%s\n", out[0]);
-        my_pipe(args, out);
-        return 0;
+        return my_pipe(args, out);
+        // return 0;
       }
   }
 
-  if ( !strcmp(args[0], "cd") )
-    chdir(args[1]);
-
+  if ( !strcmp(args[0], "cd") ) {
+    if (chdir(args[1]) == -1)
+      return errno;
+    return 0;
+  }
   else if ( !strcmp(args[0], "exit") )
-    return 1;
+    return -3;
 
-  else
-    my_exec(args);
-  return 0;
+
+  return my_exec(args);
+  // return 0;
 }
 
 int get_length(char** args){
@@ -70,43 +72,52 @@ char** rm_space(char** args){
   return args;
 }
 
-void my_exec(char** args){
+int my_exec(char** args){
   int f, status;
+  int s = 0;
   f = fork();
-  if (!f)
-    execvp(args[0], args);
-  else
+  if (!f) {
+    if (execvp(args[0], args) == -1)
+      exit(errno);
+  }
+  else {
     wait(&status);
+    s = WEXITSTATUS(status);
+  }
+  return s;
 }
 
-void my_output(char ** args, char* file){
+int my_output(char ** args, char* file){
   int ph = dup(STDOUT_FILENO);
   int fd = open(file, O_WRONLY | O_CREAT, 0777);
   dup2(fd, STDOUT_FILENO);
-  execute(args);
+  int s = execute(args);
   dup2(ph, STDOUT_FILENO);
   close(fd);
+  return s;
 }
 
-void my_append(char ** args, char* file){
+int my_append(char ** args, char* file){
   int ph = dup(STDOUT_FILENO);
   int fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0777);
   dup2(fd, STDOUT_FILENO);
-  execute(args);
+  int s = execute(args);
   dup2(ph, STDOUT_FILENO);
   close(fd);
+  return s;
 }
 
-void my_input(char ** args, char* file){
+int my_input(char ** args, char* file){
   int ph = dup(STDIN_FILENO);
   int fd = open(file, O_RDONLY);
   dup2(fd, STDIN_FILENO);
-  execute(args);
+  int s = execute(args);
   dup2(ph, STDIN_FILENO);
   close(fd);
+  return s;
 }
 
-void my_pipe(char** in, char** out){
+int my_pipe(char** in, char** out){
   int fds[2];
   int ph;
   pipe(fds);
@@ -114,14 +125,17 @@ void my_pipe(char** in, char** out){
   ph = dup(STDOUT_FILENO);
   dup2(fds[1], STDOUT_FILENO);
 
-  execute(in);
+  int s = execute(in);
   dup2(ph, STDOUT_FILENO);
   close(fds[1]);
   ph = dup(STDIN_FILENO);
   dup2(fds[0], STDIN_FILENO);
 
-  execute(out);
+  int t = execute(out);
   dup2(ph, STDIN_FILENO);
+  if (s > t)
+    return s;
+  return t;
 }
 
 char** parse_args(char* line){

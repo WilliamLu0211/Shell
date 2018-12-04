@@ -11,6 +11,7 @@
 - Recursive redirects, but limited to one or less pipe: even `bash < input.txt | cowsay > output.txt` works, WOW!
 - If there is no command before ";", the shell does not crash. It prints an error statement instead.
 - Ctrl + C interrupt does not exit the shell. This is similar to how Ctrl + C does not exit the bash.
+- Whenever a command fails to execute, a string of errno is printed.
 2. **Features Implemented Unsuccessfully**
 - Recursive pipes: for example, `fortune | cowsay | wc` does not work.
 3. **Bugs**
@@ -24,6 +25,7 @@ int execute(char** args);
   In most cases, the function calls my_exec() to execute the lines in the shell.
   However, with cases like cd and exit, they are called in the parent function.
   If any redirect symbol is present, corresponding redirect functions are called.
+  returns specific numbers or errno.
 
 int get_length(char** args);
   After the string of text has been broken down into array of arguments, get_length counts the number of arguments there are
@@ -37,24 +39,29 @@ char** parse_args(char* line);
   Splits by spaces and tabs.
   Returns a pointer to head.
 
-void my_exec(char** args);
+int my_exec(char** args);
   fork()
   execvp() in child
   wait() in parent
+  returns either 0 or errno
 
-void my_output(char ** args, char* file);
+int my_output(char ** args, char* file);
   Is invoked when a ">" sign is encountered in the input.
   Writes the output of the command into a file specified by the user
+  returns what execute() returns
 
-void my_output(char ** args, char* file);
+int my_output(char ** args, char* file);
   Is invoked when a "<" sign is encountered in the input.
   Redirects the content of the file into stdin.
+  returns what execute() returns
 
-void my_append(char ** args, char* file);
+int my_append(char ** args, char* file);
   Is invoked when a ">>" sign is encountered in the input.
   Runs the same way as my_output() but appends.
+  returns what execute() returns
 
-void my_pipe(char** in, char** out);
+int my_pipe(char** in, char** out);
   Is invoked when a "|" sign is encountered in the input.
   Redirects stdout of in into stdin of out.
+  returns what execute() returns
 ```

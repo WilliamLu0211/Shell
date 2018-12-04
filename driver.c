@@ -38,9 +38,11 @@ int main(){
 
       args = parse_args(piece);
       s = execute(args);
-      if (s == 2)
+      if (s > 0)
+        printf("%s\n", strerror(s));
+      if (s == -2)
         break;
-      if (s == 1)
+      if (s == -3)
         return 0;
     }
   }

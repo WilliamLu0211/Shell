@@ -36,13 +36,13 @@ int get_length(char** args);
    Output: returns an integer which is the length of the array.
 */
 
-void my_exec(char** args);
+int my_exec(char** args);
 /* Description: Forks, executes command in child process, parent waits
    Input: command line arguments
    Output: Returns executued command args
 */
 
-void my_input(char ** args, char* file);
+int my_input(char ** args, char* file);
 /* Description: Swaps file descriptors of a given file and STDIN.
    Redirects STDIN to take the file's contents as execute input.
    Input: Array of terminal commands
@@ -51,7 +51,7 @@ void my_input(char ** args, char* file);
 
 
 
-void my_output(char ** args, char* file);
+int my_output(char ** args, char* file);
 /* Description: Swaps the file descriptors of a given file and STDOUT.
    Results of commands executed in the terminal are written into a file instead of being displayed in terminal
    File will be overwritten
@@ -59,14 +59,14 @@ void my_output(char ** args, char* file);
    Output: A file whose contents contain the executed commands of args.
 */
 
-void my_append(char ** args, char* file);
+int my_append(char ** args, char* file);
 /* Description: Executes the command line arguments and stores these values in a file.
    Does NOT overwrite file, appends the results to the back of the file.
    Input: terminal commands, and file location to input into
    Output: File's contents have been enlargened
 */
 
-void my_pipe(char ** in, char ** out);
+int my_pipe(char ** in, char ** out);
 /* Description: Makes STDOUT of one file command go into the STDIN of another file command.
    Results of the original command are inputted into the second file command.
    Input: command being inputted, command receiving the input
